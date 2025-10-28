@@ -51,11 +51,7 @@ const userSchema = new mongoose.Schema(
         provider: {
             type: String,
             enum: ["email", "google", "facebook"],
-            default: "facebook",
-        },
-        isVerified: {
-            type: Boolean,
-            default: false,
+            default: "email",
         },
 
         // trạng thái tài khoản
@@ -71,6 +67,17 @@ const userSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
+
+        //Xác minh email
+        emailVerifyToken: {
+            type: String,
+            default: null,
+        },
+        emailVerifyExpires: {
+            type: Date,
+            default: null,
+        },
+        isEmailVerified: { type: Boolean, default: false },
 
         // reset password
         resetPasswordToken: String,
