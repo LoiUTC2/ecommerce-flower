@@ -4,8 +4,9 @@ import crypto from "crypto";
 import { OAuth2Client } from "google-auth-library";
 import User from "../models/userModel.js";
 import { successResponse, errorResponse } from "../utils/response.js";
-import { sendEmail } from "../utils/mail.js";
 import RefreshToken from "../models/refreshTokenModel.js";
+import { sendVerifyEmail, sendResetPasswordEmail, sendEmail } from "../utils/mail.js"; //smtp mail
+// import { sendVerifyEmail, sendResetPasswordEmail } from "../utils/mailResend.js"; //resend mail
 
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -21,9 +22,9 @@ export const generateTokens = async (user) => {
         expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000
     });
     // refresh endpoint: verify token exists & !revoked
-    const stored = await RefreshToken.findOne({ token });
+    const stored = await RefreshToken.findOne({ token: refreshToken });
     if (!stored || stored.revoked) return errorResponse(res, "Invalid refresh token", 401);
-    
+
     return { accessToken, refreshToken };
 };
 
@@ -43,6 +44,27 @@ export const register = async (req, res) => {
         user.emailVerifyToken = verifyToken;
         user.emailVerifyExpires = Date.now() + 24 * 60 * 60 * 1000; // 24h
         await user.save();
+
+        // gửi email xác thực với error handling (có template)
+        // try {
+        //     const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${verifyToken}&email=${encodeURIComponent(user.email)}`;
+        //     await sendVerifyEmail({ 
+        //         to: user.email, 
+        //         fullName: user.fullName, 
+        //         verifyUrl, 
+        //         logoUrl: process.env.LOGO_URL 
+        //     });
+        //     console.log(`✅ Email sent successfully to ${user.email}`);
+        // } catch (emailError) {
+        //     console.error(`❌ Failed to send email to ${user.email}:`, emailError);
+        //     // Vẫn trả về success nhưng cảnh báo user
+        //     return successResponse(
+        //         res, 
+        //         { email: user.email }, 
+        //         "User registered but email delivery failed. Please contact support.", 
+        //         201
+        //     );
+        // }
 
         // gửi email xác thực
         const verifyUrl = `${process.env.API_URL || "http://localhost:5000"}/api/auth/verify-email?token=${verifyToken}`;
@@ -182,6 +204,10 @@ export const forgotPassword = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
         await user.save();
 
+        //Gửi email (có template)
+        // const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
+        // await sendResetPasswordEmail({ to: user.email, fullName: user.fullName, resetUrl, logoUrl: process.env.LOGO_URL });
+        
         const resetUrl = `${process.env.CLIENT_URL || CLIENT_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
         const html = `
       <p>Xin chào ${user.fullName},</p>
