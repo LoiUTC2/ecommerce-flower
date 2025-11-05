@@ -1,0 +1,557 @@
+/* ========================================
+   CUSTOM CSS FIXES FOR KỲ LÂN FRESH FLOWER
+   ======================================== */
+
+/* Import Google Fonts nếu chưa có */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ========================================
+   1. GLOBAL & TYPOGRAPHY
+   ======================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Font chữ serif cho headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* ========================================
+   2. HEADER FIXES
+   ======================================== */
+
+/* Top banner cần nổi bật hơn */
+header>div:first-child {
+    background: linear-gradient(90deg, #d97706 0%, #eab308 100%);
+    padding: 0.5rem 0;
+    font-weight: 500;
+}
+
+/* Logo area */
+header [data-testid="logo"] h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    letter-spacing: -0.02em;
+}
+
+/* Mobile menu overlay */
+header [data-testid="mobile-nav"] {
+    background: white;
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart badge */
+header [data-testid="cart-button"] span {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ========================================
+   3. HERO SECTION FIXES
+   ======================================== */
+
+/* Hero overlay cần đậm hơn để text rõ ràng */
+[data-testid="hero-section"] .absolute.inset-0:last-of-type {
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.5) 50%,
+            rgba(0, 0, 0, 0.2) 100%) !important;
+}
+
+/* Hero title với gradient vàng gold */
+[data-testid="hero-headline"] span {
+    background: linear-gradient(90deg, #fbbf24 0%, #fcd34d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Search bar trong hero */
+[data-testid="hero-search"] {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Trust badges */
+[data-testid="hero-section"] .flex.flex-wrap.items-center.gap-8>div {
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   4. FEATURED CATEGORIES FIXES
+   ======================================== */
+
+/* Category cards hover effect */
+[data-testid^="category-"] {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-testid^="category-"]:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Category image overlay */
+[data-testid^="category-"] .relative.h-64 .absolute.inset-0 {
+    transition: opacity 0.3s ease;
+}
+
+[data-testid^="category-"]:hover .relative.h-64 .absolute.inset-0 {
+    opacity: 0.6;
+}
+
+/* ========================================
+   5. BEST SELLING PRODUCTS FIXES
+   ======================================== */
+
+/* Product card spacing */
+[data-testid^="product-"] {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+[data-testid^="product-"]:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Product badges */
+[data-testid^="product-"] .absolute.top-3.left-3 {
+    z-index: 10;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.4rem 0.8rem;
+    text-transform: capitalize;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Wishlist button */
+[data-testid^="wishlist-product-"] {
+    transition: all 0.3s ease;
+}
+
+[data-testid^="product-"]:hover [data-testid^="wishlist-product-"] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Product image zoom effect */
+[data-testid^="product-"] img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-testid^="product-"]:hover img {
+    transform: scale(1.08);
+}
+
+/* Product price */
+[data-testid^="product-"] .text-xl.font-bold {
+    color: #d97706;
+    font-weight: 800;
+}
+
+/* Add to cart button */
+[data-testid^="add-to-cart-"] {
+    background: linear-gradient(90deg, #d97706 0%, #eab308 100%);
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+[data-testid^="add-to-cart-"]:hover {
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   6. PROMO SECTION FIXES
+   ======================================== */
+
+/* Promo cards với gradient backgrounds */
+[data-testid^="promo-"] {
+    border-radius: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+[data-testid^="promo-"]:hover {
+    transform: scale(1.05);
+}
+
+/* Promo icons */
+[data-testid^="promo-"] svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* ========================================
+   7. STORYTELLING SECTION FIXES
+   ======================================== */
+
+/* Image với rounded corners */
+[data-testid="storytelling-section"] .rounded-3xl {
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+/* Floating badge */
+[data-testid="storytelling-section"] .absolute.-bottom-6.-right-6 {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Check marks */
+[data-testid="storytelling-section"] .bg-green-500 {
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+/* ========================================
+   8. TESTIMONIALS FIXES
+   ======================================== */
+
+/* Testimonial cards */
+[data-testid="testimonials-section"] .shadow-lg {
+    border-radius: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+[data-testid="testimonials-section"] .shadow-lg:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+/* Quote icon */
+[data-testid="testimonials-section"] svg.text-amber-300 {
+    opacity: 0.3;
+}
+
+/* Star ratings */
+[data-testid="testimonials-section"] .fill-yellow-400 {
+    filter: drop-shadow(0 1px 2px rgba(234, 179, 8, 0.3));
+}
+
+/* Stats cards */
+[data-testid="testimonials-section"] .bg-white.rounded-2xl {
+    transition: all 0.3s ease;
+}
+
+[data-testid="testimonials-section"] .bg-white.rounded-2xl:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   9. FOOTER FIXES
+   ======================================== */
+
+/* Newsletter section gradient */
+[data-testid="footer"]>div:first-child {
+    background: linear-gradient(90deg, #d97706 0%, #eab308 100%);
+}
+
+/* Footer links hover */
+footer a {
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #d97706;
+    text-decoration: underline;
+}
+
+/* Social buttons */
+footer button[data-testid] svg {
+    transition: transform 0.3s ease;
+}
+
+footer button[data-testid]:hover svg {
+    transform: scale(1.2);
+}
+
+/* Payment badges */
+footer .bg-white\/10 {
+    transition: all 0.3s ease;
+}
+
+footer .bg-white\/10:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* ========================================
+   10. RESPONSIVE FIXES
+   ======================================== */
+
+/* Tablet (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    /* Hero section height điều chỉnh */
+    [data-testid="hero-section"] {
+        height: 600px;
+    }
+
+    /* Product grid 2 columns trên tablet */
+    [data-testid="best-selling-products"] .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Category cards 2 columns */
+    [data-testid="featured-categories"] .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+
+    /* Hero section điều chỉnh */
+    [data-testid="hero-section"] {
+        height: 500px;
+    }
+
+    [data-testid="hero-headline"] {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    /* Search bar full width */
+    [data-testid="hero-search"] {
+        flex-direction: column;
+    }
+
+    [data-testid="hero-search"] button {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Product grid 1 column */
+    [data-testid="best-selling-products"] .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Category cards 1 column */
+    [data-testid="featured-categories"] .grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Promo cards stack */
+    [data-testid="promo-section"] .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Storytelling section stack */
+    [data-testid="storytelling-section"] .grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer columns stack */
+    footer .grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Hide carousel arrows on mobile */
+    [data-testid="testimonials-section"] button[class*="CarouselPrevious"],
+    [data-testid="testimonials-section"] button[class*="CarouselNext"] {
+        display: none;
+    }
+}
+
+/* Small mobile (< 480px) */
+@media (max-width: 479px) {
+
+    /* Container padding giảm */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Hero title nhỏ hơn */
+    [data-testid="hero-headline"] {
+        font-size: 1.75rem;
+    }
+
+    /* Buttons full width */
+    [data-testid="hero-section"] button {
+        width: 100%;
+    }
+
+    /* Stats grid 1 column */
+    [data-testid="testimonials-section"] .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   11. ANIMATION & TRANSITIONS
+   ======================================== */
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Page transition */
+body {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Hover lift effect for all cards */
+.group:hover {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid #d97706;
+    outline-offset: 2px;
+}
+
+/* Loading spinner nếu cần */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* ========================================
+   12. UTILITIES & HELPERS
+   ======================================== */
+
+/* Gradient text utility */
+.gradient-text {
+    background: linear-gradient(90deg, #d97706 0%, #eab308 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Glass morphism effect */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Shadow utilities */
+.shadow-custom {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-custom-lg {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Truncate text */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ========================================
+   13. CUSTOM SCROLLBAR
+   ======================================== */
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d97706 0%, #eab308 100%);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b8941f;
+}
+
+/* ========================================
+   14. PRINT STYLES
+   ======================================== */
+
+@media print {
+
+    header,
+    footer,
+    [data-testid="promo-banner"],
+    button {
+        display: none;
+    }
+
+    body {
+        font-size: 12pt;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+}
