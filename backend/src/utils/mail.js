@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer";
+import { transporter } from "../config/mail.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 /**
  * Gợi ý: sử dụng dịch vụ gửi mail chuyên nghiệp (SendGrid/Resend/Mailgun) ở production.
@@ -7,16 +10,6 @@ import nodemailer from "nodemailer";
 
 import { buildVerifyEmailHtml, buildVerifyEmailText, buildResetPasswordHtml, buildResetPasswordText } from "./mailTemplates.js";
 
-
-const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST || "smtp.gmail.com",
-    port: process.env.MAIL_PORT ? Number(process.env.MAIL_PORT) : 465,
-    secure: process.env.MAIL_SECURE ? process.env.MAIL_SECURE === "true" : true,
-    auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-    },
-});
 
 export async function sendVerifyEmail({ to, fullName, verifyUrl, logoUrl }) {
     try {
@@ -66,7 +59,7 @@ export async function sendResetPasswordEmail({ to, fullName, resetUrl, logoUrl }
     }
 }
 
-// Generic fallback
+// Generic fallback (chưa dùng)
 export async function sendCustomEmail({ to, subject, html, text }) {
     return transporter.sendMail({
         from: process.env.MAIL_FROM || process.env.MAIL_USER,
@@ -86,10 +79,11 @@ export const sendEmail = async ({ to, subject, html, text }) => {
             text: text || "",
             html: html || "",
         });
+        console.log("✅ Email sent:", subject);
         return info;
     } catch (error) {
         // undo or mark
-        console.error("Mail error:", err);
+        console.error("Mail error:", error.message);
         // Option: await User.findByIdAndDelete(user._id);
         return errorResponse(res, "Failed to send verification email. Try again later.", 500);
     }

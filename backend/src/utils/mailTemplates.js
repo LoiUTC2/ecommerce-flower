@@ -167,6 +167,44 @@ Nếu bạn không yêu cầu, bỏ qua email này.
 `;
 }
 
+export const orderConfirmationTemplate = (order) => `
+  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <h2 style="color:#e91e63;">🌸 Cảm ơn bạn đã đặt hàng tại KiLan Fresh Flower!</h2>
+    <p>Xin chào <b>${order.customerName}</b>,</p>
+    <p>Chúng tôi đã nhận được đơn hàng của bạn. Dưới đây là thông tin chi tiết:</p>
+    <hr/>
+    <p><b>Mã đơn hàng:</b> ${order._id}</p>
+    <p><b>Ngày đặt:</b> ${new Date(order.createdAt).toLocaleDateString()}</p>
+    <p><b>Địa chỉ giao hàng:</b> ${order.shippingAddress}</p>
+    <p><b>Phương thức thanh toán:</b> ${order.paymentMethod.toUpperCase()}</p>
+    <hr/>
+    <h3>🛍️ Sản phẩm:</h3>
+    <ul>
+      ${order.items.map(item => `
+        <li>${item.quantity}x ${item.product.name} - ${item.price.toLocaleString()}₫</li>
+      `).join("")}
+    </ul>
+    <p><b>Tổng tiền:</b> ${order.totalAmount.toLocaleString()}₫</p>
+    <hr/>
+    <p>Chúng tôi sẽ sớm liên hệ để xác nhận đơn hàng.</p>
+    <p>Trân trọng,</p>
+    <p><b>Đội ngũ ${process.env.SHOP_NAME}</b></p>
+  </div>
+`;
+
+export const orderStatusUpdateTemplate = (order) => `
+  <div style="font-family: Arial, sans-serif; color: #333;">
+    <h2 style="color:#4CAF50;">🚚 Cập nhật trạng thái đơn hàng của bạn</h2>
+    <p>Xin chào <b>${order.customerName}</b>,</p>
+    <p>Đơn hàng <b>#${order._id}</b> của bạn hiện đang ở trạng thái: 
+      <b style="color:#e91e63;">${order.status.toUpperCase()}</b>
+    </p>
+    <p>Chúng tôi sẽ tiếp tục cập nhật khi đơn hàng có thay đổi mới.</p>
+    <hr/>
+    <p>Cảm ơn bạn đã mua sắm tại ${process.env.SHOP_NAME}! 🌼</p>
+  </div>
+`;
+
 /** Utility: small HTML escape to avoid injection if name contains chars */
 function escapeHtml(str = "") {
     return String(str)

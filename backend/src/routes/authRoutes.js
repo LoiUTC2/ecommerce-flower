@@ -8,11 +8,13 @@ import {
     googleLogin,
     forgotPassword,
     resetPassword,
+    getProfile,
 } from "../controllers/authController.js";
 
 import passport from "../config/passport.js";
 import { generateTokens } from "../controllers/authController.js";
 import { successResponse } from "../utils/response.js";
+import { verifyAccessToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -20,6 +22,8 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
 router.get("/refresh-token", refreshToken);
+
+router.get("/me", verifyAccessToken, getProfile);
 
 // advanced
 // Bắt đầu đăng nhập Google

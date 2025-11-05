@@ -207,7 +207,7 @@ export const forgotPassword = async (req, res) => {
         //Gửi email (có template)
         // const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
         // await sendResetPasswordEmail({ to: user.email, fullName: user.fullName, resetUrl, logoUrl: process.env.LOGO_URL });
-        
+
         const resetUrl = `${process.env.CLIENT_URL || CLIENT_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
         const html = `
       <p>Xin chào ${user.fullName},</p>
@@ -281,4 +281,14 @@ export const refreshToken = async (req, res) => {
 export const logout = async (req, res) => {
     res.clearCookie("refreshToken");
     return successResponse(res, {}, "Logged out successfully");
+};
+
+// 🟠 Lấy thông tin tài khoản hiện tại
+export const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId).select("-password");
+        return successResponse(res, user);
+    } catch (error) {
+        return errorResponse(res, error.message);
+    }
 };
