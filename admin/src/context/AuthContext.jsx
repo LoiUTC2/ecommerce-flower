@@ -1,23 +1,25 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-    const [admin, setAdmin] = useState(null);
-
-    useEffect(() => {
+export const AuthProvider = ({ children }) => {
+    const [admin, setAdmin] = useState(() => {
         const stored = localStorage.getItem("admin");
-        if (stored) setAdmin(JSON.parse(stored));
-    }, []);
+        return stored ? JSON.parse(stored) : null;
+    });
 
     const login = (data) => {
-        setAdmin(data);
-        localStorage.setItem("admin", JSON.stringify(data));
+        localStorage.setItem("admin", JSON.stringify(data.user));
+        localStorage.setItem("adminToken", data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
+        setAdmin(data.user);
     };
 
     const logout = () => {
-        setAdmin(null);
         localStorage.removeItem("admin");
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("accessToken");
+        setAdmin(null);
     };
 
     return (
@@ -25,6 +27,6 @@ export function AuthProvider({ children }) {
             {children}
         </AuthContext.Provider>
     );
-}
+};
 
 export const useAuth = () => useContext(AuthContext);
