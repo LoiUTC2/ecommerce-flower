@@ -35,7 +35,7 @@ router.get(
     passport.authenticate("google", { session: false }),
     async (req, res) => {
         const user = req.user;
-        const tokens = generateTokens(user);
+        const tokens = await generateTokens(user);
 
         res.cookie("refreshToken", tokens.refreshToken, {
             httpOnly: true,

@@ -5,17 +5,51 @@ import {
     getCategoryBySlug,
     updateCategory,
     deleteCategory,
+    updateDisplayOrder,
+    getPopularCategories,
+    syncProductCounts
 } from "../controllers/categoryController.js";
 import { upload } from "../middlewares/uploadMiddleware.js";
-
 import { verifyAccessToken, adminOnly } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", verifyAccessToken, adminOnly, upload.single("image"), createCategory);
+// Public routes
 router.get("/", getAllCategories);
+router.get("/popular", getPopularCategories);
 router.get("/:slug", getCategoryBySlug);
-router.put("/:id", verifyAccessToken, adminOnly, upload.single("image"), updateCategory);
-router.delete("/:id", verifyAccessToken, adminOnly, deleteCategory);
+
+// Admin routes
+router.post("/",
+    verifyAccessToken,
+    adminOnly,
+    upload.single("image"),
+    createCategory
+);
+
+router.put("/:id",
+    verifyAccessToken,
+    adminOnly,
+    upload.single("image"),
+    updateCategory
+);
+
+router.delete("/:id",
+    verifyAccessToken,
+    adminOnly,
+    deleteCategory
+);
+
+router.patch("/update-order",
+    verifyAccessToken,
+    adminOnly,
+    updateDisplayOrder
+);
+
+router.post("/sync-counts",
+    verifyAccessToken,
+    adminOnly,
+    syncProductCounts
+);
 
 export default router;

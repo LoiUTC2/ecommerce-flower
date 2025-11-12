@@ -33,7 +33,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Middlewares
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+    process.env.CLIENT_URL, // http://localhost:5173 từ .env
+    process.env.ADMIN_URL, //"http://localhost:5174", 
+    // Thêm các URL khác nếu cần
+];
+app.use(
+    cors({
+        origin: allowedOrigins, // Sử dụng mảng để cho phép nhiều origin
+        credentials: true,
+    })
+);
+
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());

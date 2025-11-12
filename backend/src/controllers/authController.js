@@ -21,9 +21,6 @@ export const generateTokens = async (user) => {
         user: user._id,
         expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000
     });
-    // refresh endpoint: verify token exists & !revoked
-    const stored = await RefreshToken.findOne({ token: refreshToken });
-    if (!stored || stored.revoked) return errorResponse(res, "Invalid refresh token", 401);
 
     return { accessToken, refreshToken };
 };
@@ -116,7 +113,7 @@ export const login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return errorResponse(res, "Invalid credentials", 401);
 
-        const { accessToken, refreshToken } = generateTokens(user);
+        const { accessToken, refreshToken } = await generateTokens(user);
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
@@ -261,7 +258,7 @@ export const refreshToken = async (req, res) => {
         const user = await User.findById(decoded.userId);
         if (!user) return errorResponse(res, "User not found", 404);
 
-        const { accessToken, refreshToken: newRefresh } = generateTokens(user);
+        const { accessToken, refreshToken: newRefresh } = await generateTokens(user);
 
         // tạo refresh token mới
         res.cookie("refreshToken", newRefresh, {
