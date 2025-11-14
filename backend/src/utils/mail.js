@@ -9,6 +9,7 @@ dotenv.config();
  */
 
 import { buildVerifyEmailHtml, buildVerifyEmailText, buildResetPasswordHtml, buildResetPasswordText } from "./mailTemplates.js";
+import { errorResponse, successResponse } from "./response.js";
 
 
 export async function sendVerifyEmail({ to, fullName, verifyUrl, logoUrl }) {
@@ -85,7 +86,7 @@ export const sendEmail = async ({ to, subject, html, text }) => {
         // undo or mark
         console.error("Mail error:", error.message);
         // Option: await User.findByIdAndDelete(user._id);
-        return errorResponse(res, "Failed to send verification email. Try again later.", 500);
+        throw new Error(`Failed to send email to ${to}: ${error.message}`);
     }
 
 };
